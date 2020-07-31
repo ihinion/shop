@@ -1,0 +1,75 @@
+[
+{
+  "model": "webapp.product",
+  "pk": 1,
+  "fields": {
+    "name": "Name One",
+    "description": "Some very nice and useful product",
+    "category": "electronics",
+    "amount": 1,
+    "price": "111.00"
+  }
+},
+{
+  "model": "webapp.product",
+  "pk": 2,
+  "fields": {
+    "name": "Name Two",
+    "description": "Some very nice and useful product",
+    "category": "food",
+    "amount": 4,
+    "price": "23.00"
+  }
+},
+{
+  "model": "webapp.product",
+  "pk": 3,
+  "fields": {
+    "name": "Name Three",
+    "description": "Some very nice and useful product",
+    "category": "cars",
+    "amount": 1,
+    "price": "24000.00"
+  }
+},
+{
+  "model": "webapp.product",
+  "pk": 4,
+  "fields": {
+    "name": "Name Four",
+    "description": "Some very nice and useful product",
+    "category": "toys",
+    "amount": 20,
+    "price": "8.00"
+  }
+},
+{
+  "model": "webapp.product",
+  "pk": 5,
+  "fields": {
+    "name": "Name Five",
+    "description": "Some very nice and useful product",
+    "category": "food",
+    "amount": 50,
+    "price": "3.00"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$cIg4zyp6yoPa$1w0D69S7f70KHHyaZHGPdTGJLp4zLRyecUup0fKkvu4=",
+    "last_login": "2020-07-30T14:06:57.323Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2020-07-30T13:26:56.710Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
