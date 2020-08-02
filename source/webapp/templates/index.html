@@ -17,7 +17,7 @@
                                             <b>Category:</b> {{ product.get_category_display }} </p>
                     <form class="form-inline">
                         <a class="btn btn-primary btn-sm mr-3" href="{% url 'product' product.pk %}" role="button">Details</a>
-                        <a class="btn btn-danger btn-sm mr-3" href="#" role="button">Delete</a>
+                        <a class="btn btn-danger btn-sm mr-3" href="{% url 'delete' product.pk %}" role="button">Delete</a>
                         <a class="btn btn-info btn-sm mr-3" href="{% url 'update' product.pk %}" role="button">Update</a>
                     </form>
                 </div>
