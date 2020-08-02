@@ -1,0 +1,14 @@
+{% load widget_tweaks %}
+{% csrf_token %}
+{% for error in form.non_field_errors %}
+    <p class="form-error">{{ error }}</p>
+{% endfor %}
+{% for field in form %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {% for error in field.errors %}
+        <p class="form-error">{{ error }}</p>
+    {% endfor %}
+    <p>{{ field|add_class:'form-control' }}</p>
+{% endfor %}
+<input class="btn btn-primary" type="submit" value="{{ button_text }}">
+<a class="btn btn-secondary" href="{% url 'index' %}" role="button">Index</a>
