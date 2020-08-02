@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Product #{{ product.pk }} {% endblock %}
+{% block nav %}
+<nav class="navbar navbar-dark bg-primary mb-5">
+    <a class="navbar-brand font-weight-bold" href="{% url 'index' %}">FancyShop.com</a>
+</nav>
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <b>Product: {{ product.name }}</b>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title"><b>Description:</b> {{ product.description }}</h5>
+        <p class="card-text"><b>Category: {{ product.category }}</p>
+        <p>Price: {{ product.price }}</p>
+        <p>Amount: {{ product.amount }}</p>
+        <a class="btn btn-primary mr-2" href="{% url 'index' %}" role="button">Index</a>
+        <a class="btn btn-danger mr-2" href="#" role="button">Delete</a>
+        <a class="btn btn-info" href="#" role="button">Update</a>
+    </div>
+</div>
+{% endblock %}
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+</html>
