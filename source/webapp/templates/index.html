@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Shop{% endblock %}
+{% block nav %}
+<nav class="navbar navbar-dark bg-primary mb-5">
+    <a class="navbar-brand font-weight-bold" href="{% url 'index' %}">FancyShop.com</a>
+    <a class="navbar-brand font-weight-bold" href="#">Add</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+    {% for product in products %}
+        {% if product.amount >= 1 %}
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">{{ product.name }}</h5>
+                    <p class="text-justify"><b>Price: {{ product.price }} </b> <br>
+                                            <b>Category:</b> {{ product.get_category_display }} </p>
+                    <form class="form-inline">
+                        <a class="btn btn-primary btn-sm mr-3" href="{% url 'product' product.pk %}" role="button">Details</a>
+                        <a class="btn btn-danger btn-sm mr-3" href="#" role="button">Delete</a>
+                        <a class="btn btn-info btn-sm mr-3" href="#" role="button">Update</a>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <a class="btn btn-primary btn-lg btn-block mb-4" href="#" role="button">Add</a>
+{% endblock %}
