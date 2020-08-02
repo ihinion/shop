@@ -18,7 +18,7 @@
         <p>Amount: {{ product.amount }}</p>
         <a class="btn btn-primary mr-2" href="{% url 'index' %}" role="button">Index</a>
         <a class="btn btn-danger mr-2" href="#" role="button">Delete</a>
-        <a class="btn btn-info" href="#" role="button">Update</a>
+        <a class="btn btn-info" href="{% url 'update' product.pk %}" role="button">Update</a>
     </div>
 </div>
 {% endblock %}
