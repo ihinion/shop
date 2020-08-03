@@ -1,0 +1,12 @@
+{% load widget_tweaks %}
+{% csrf_token %}
+{% for error in form.non_field_errors %}
+    <div style="color: white">{{ error }}</div>
+{% endfor %}
+{% for field in form %}
+    {% for error in field.errors %}
+        <div style="color: white">{{ error }}</div>
+    {% endfor %}
+    {{ field|add_class:'form-control mr-sm-2' }}
+{% endfor %}
+<input class="btn btn-primary" type="submit" value="{{ button_text }}">

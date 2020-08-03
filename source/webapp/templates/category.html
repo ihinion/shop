@@ -1,33 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Shop{% endblock %}
 {% block nav %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
+<nav class="navbar navbar-dark bg-primary mb-5">
   <a class="navbar-brand" href="{% url 'index' %}">FancyShop.com</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto"></li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" style="color: white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-          Select category
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            {% for item in dropdown %}
-                <a class="dropdown-item" href="{% url 'category_url' item.0 %}">{{ item.1 }}</a>
-            {% endfor %}
-        </div>
-      </li>
-    </ul>
-    <form class="form-inline my-lg-0" action="{% url 'index' %}" method="get">
-      {% include 'partial/search.html' with button_text='Search' %}
-    </form>
-  </div>
 </nav>
 {% endblock %}
-
 {% block content %}
     {% for product in products %}
         {% if product.amount >= 1 %}

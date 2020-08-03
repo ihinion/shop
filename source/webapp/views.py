@@ -1,16 +1,33 @@
 from webapp.models import Product
-from django.shortcuts import redirect, get_object_or_404, render
+from django.shortcuts import redirect, get_object_or_404, render, Http404
 from webapp.forms import ProductForm, SearchForm
+from webapp.models import CATEGORY_CHOICES
 
 
 def index_view(request):
+    dropdown = []
+    for i in CATEGORY_CHOICES:
+        dropdown.append(i)
     form = SearchForm(data=request.GET)
     products = Product.objects.all().order_by('category', 'name')
     if form.is_valid():
         search = form.cleaned_data['search']
         if search:
             products = products.filter(name__icontains=form.cleaned_data['search'])
-    return render(request, 'index.html', {'products': products, 'form': form})
+    return render(request, 'index.html', {'products': products, 'form': form, 'dropdown': dropdown})
+
+
+def category_view(request, id):
+    category = None
+    for i in CATEGORY_CHOICES:
+        if id in i:
+            category = id
+    if category:
+        products = Product.objects.filter(category=category).order_by('name')
+        print(category)
+        return render(request, 'category.html', {'products': products})
+    else:
+        raise Http404
 
 
 def product_view(request, pk):
