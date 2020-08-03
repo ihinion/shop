@@ -12,3 +12,7 @@ class ProductForm(forms.Form):
     amount = forms.IntegerField(label='Amount', min_value=0, required=True)
     price = forms.DecimalField(label='Price', max_digits=7, decimal_places=2, validators=[MinValueValidator(0)],
                                required=True)
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=100, required=False, label=None)

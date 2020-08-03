@@ -1,11 +1,16 @@
 from webapp.models import Product
 from django.shortcuts import redirect, get_object_or_404, render
-from webapp.forms import ProductForm
+from webapp.forms import ProductForm, SearchForm
 
 
 def index_view(request):
+    form = SearchForm(data=request.GET)
     products = Product.objects.all().order_by('category', 'name')
-    return render(request, 'index.html', {'products': products})
+    if form.is_valid():
+        search = form.cleaned_data['search']
+        if search:
+            products = products.filter(name__icontains=form.cleaned_data['search'])
+    return render(request, 'index.html', {'products': products, 'form': form})
 
 
 def product_view(request, pk):
