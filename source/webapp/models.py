@@ -2,7 +2,6 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 
-DEFAULT_CATEGORY = 'other'
 CATEGORY_CHOICES = (
     ('other', 'Other'),
     ('food', 'Food'),
@@ -10,6 +9,7 @@ CATEGORY_CHOICES = (
     ('electronics', 'Electronics'),
     ('cars', 'Cars'),
 )
+DEFAULT_CATEGORY = CATEGORY_CHOICES[0][0]
 
 
 class Product(models.Model):
