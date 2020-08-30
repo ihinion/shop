@@ -3,9 +3,9 @@
 {% block content %}
 <div class="container">
     <h2 class="my-3">Update product</h2>
-    <form action="{% url 'update' product.pk %}" method="post">
+    <form action="{% url 'product_update' product.pk %}" method="post">
         {% include 'partial/form.html' with button_text='Update' %}
-        <a class="btn btn-warning" href="{% url 'product' product.pk %}" role="button">View product</a>
+        <a class="btn btn-warning" href="{% url 'product_view' product.pk %}" role="button">View product</a>
         <a class="btn btn-secondary" href="{% url 'index' %}" role="button">Index</a>
     </form>
 </div>

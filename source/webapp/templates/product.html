@@ -17,8 +17,8 @@
         <p>Price: {{ product.price }}</p>
         <p>Amount: {{ product.amount }}</p>
         <a class="btn btn-primary mr-2" href="{% url 'index' %}" role="button">Index</a>
-        <a class="btn btn-danger mr-2" href="{% url 'delete' product.pk %}" role="button">Delete</a>
-        <a class="btn btn-info" href="{% url 'update' product.pk %}" role="button">Update</a>
+        <a class="btn btn-danger mr-2" href="{% url 'product_delete' product.pk %}" role="button">Delete</a>
+        <a class="btn btn-info" href="{% url 'product_update' product.pk %}" role="button">Update</a>
     </div>
 </div>
 {% endblock %}
