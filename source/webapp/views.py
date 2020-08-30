@@ -12,7 +12,8 @@ class IndexView(ListView):
     template_name = 'index.html'
     model = Product
     context_object_name = 'products'
-    paginate_by = 10
+    paginate_by = 5
+    ordering = ['category', 'name']
 
     def get(self, request, *args, **kwargs):
         self.form = self.get_search_form()
@@ -30,7 +31,7 @@ class IndexView(ListView):
         return context
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().filter(amount__gt=0)
         if self.search_value:
             query = Q(name__icontains=self.search_value) | Q(description__icontains=self.search_value)
             queryset = queryset.filter(query)
