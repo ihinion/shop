@@ -18,20 +18,8 @@
         <p>Amount: {{ product.amount }}</p>
         <a class="btn btn-primary mr-2" href="{% url 'index' %}" role="button">Index</a>
         <a class="btn btn-danger mr-2" href="{% url 'product_delete' product.pk %}" role="button">Delete</a>
-        <a class="btn btn-info" href="{% url 'product_update' product.pk %}" role="button">Update</a>
+        <a class="btn btn-info mr-2" href="{% url 'product_update' product.pk %}" role="button">Update</a>
+        <a class="btn btn-success" href="{% url 'add_to_cart' product.pk %}" role="button">Add to cart</a>
     </div>
 </div>
 {% endblock %}
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
-</body>
-</html>

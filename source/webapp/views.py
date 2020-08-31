@@ -1,8 +1,10 @@
 from urllib.parse import urlencode
-from django.db.models import Q
+from django.db.models import Q, Sum, Count
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
-from webapp.models import Product
+from django.views.generic.base import View
+from django.core.exceptions import ObjectDoesNotExist
+from webapp.models import Product, Cart
 from django.shortcuts import redirect, get_object_or_404, render, Http404
 from webapp.forms import ProductForm, SearchForm
 from webapp.models import CATEGORY_CHOICES
@@ -45,18 +47,6 @@ class IndexView(ListView):
             return self.form.cleaned_data['search']
         return None
 
-# def index_view(request):
-#     dropdown = []
-#     for i in CATEGORY_CHOICES:
-#         dropdown.append(i)
-#     form = SearchForm(data=request.GET)
-#     products = Product.objects.all().order_by('category', 'name')
-#     if form.is_valid():
-#         search = form.cleaned_data['search']
-#         if search:
-#             products = products.filter(name__icontains=form.cleaned_data['search'])
-#     return render(request, 'index.html', {'products': products, 'form': form, 'dropdown': dropdown})
-
 
 def category_view(request, id):
     category = None
@@ -71,27 +61,9 @@ def category_view(request, id):
         raise Http404
 
 
-# def product_view(request, pk):
-#     product = get_object_or_404(Product, pk=pk)
-#     return render(request, 'product.html', {'product': product})
-
-
 class ProductView(DetailView):
     template_name = 'product.html'
     model = Product
-
-
-# def add_view(request):
-#     if request.method == 'GET':
-#         form = ProductForm()
-#         return render(request, 'product_create.html', {'form': form})
-#     elif request.method == 'POST':
-#         form = ProductForm(data=request.POST)
-#         if form.is_valid():
-#             product = Product.objects.create(**form.cleaned_data)
-#             return redirect('product', pk=product.pk)
-#         else:
-#             return render(request, 'product_create.html', {'form': form})
 
 
 class ProductCreateView(CreateView):
@@ -103,31 +75,6 @@ class ProductCreateView(CreateView):
         return reverse('product_view', kwargs={'pk': self.object.pk})
 
 
-# def update_view(request, pk):
-#     product = get_object_or_404(Product, pk=pk)
-#     if request.method == 'GET':
-#         form = ProductForm(data={
-#             'name': product.name,
-#             'description': product.description,
-#             'category': product.category,
-#             'amount': product.amount,
-#             'price': product.price
-#         })
-#         return render(request, 'product_update.html', context={'form': form, 'product': product})
-#     elif request.method == 'POST':
-#         form = ProductForm(data=request.POST)
-#         if form.is_valid():
-#             product.name = form.cleaned_data['name']
-#             product.description = form.cleaned_data['description']
-#             product.category = form.cleaned_data['category']
-#             product.amount = form.cleaned_data['amount']
-#             product.price = form.cleaned_data['price']
-#             product.save()
-#             return redirect(product_view, pk=product.pk)
-#         else:
-#             return render(request, 'product_update.html', context={'form': form, 'product': product})
-#
-#
 class ProductUpdateView(UpdateView):
     template_name = 'product_update.html'
     model = Product
@@ -137,15 +84,45 @@ class ProductUpdateView(UpdateView):
         return reverse('product_view', kwargs={'pk': self.object.pk})
 
 
-# def delete_view(request, pk):
-#     product = get_object_or_404(Product, pk=pk)
-#     if request.method == "POST":
-#         product.delete()
-#         return redirect(index_view)
-#     return render(request, "product_delete.html", {'product': product})
-
-
 class ProductDeleteView(DeleteView):
     template_name = 'product_delete.html'
     model = Product
     success_url = reverse_lazy('index')
+
+
+class CartCreateView(View):
+
+    def get(self, request, *args, **kwargs):
+        product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
+        try:
+            cart = Cart.objects.get(product=product)
+            if cart.amount < product.amount:
+                cart.amount += 1
+                cart.save()
+        except ObjectDoesNotExist:
+            if product.amount > 0:
+                Cart.objects.create(product=product, amount=1)
+        return redirect('index')
+
+
+class CartView(ListView):
+    template_name = 'cart.html'
+    model = Cart
+    context_object_name = 'carts'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        total = 0
+        for obj in Cart.objects.all():
+            total += obj.amount * obj.product.price
+        context['total'] = total
+        return context
+
+
+class CartDeleteView(View):
+    def get(self, request, *args, **kwargs):
+        product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
+        cart = Cart.objects.get(product=product)
+        cart.delete()
+        return redirect('cart_view')
+
