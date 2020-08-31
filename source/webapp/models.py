@@ -26,3 +26,11 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
+
+
+class Cart(models.Model):
+    product = models.ForeignKey('webapp.Product', on_delete=models.PROTECT, verbose_name='Cart')
+    amount = models.IntegerField(verbose_name='Amount', validators=[MinValueValidator(0)])
+
+    def __str__(self):
+        return f'Product: {self.product.name}, amount: {self.amount}'
