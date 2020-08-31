@@ -1,12 +1,12 @@
 from urllib.parse import urlencode
-from django.db.models import Q, Sum, Count
+from django.db.models import Q
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from django.views.generic.base import View
 from django.core.exceptions import ObjectDoesNotExist
-from webapp.models import Product, Cart
+from webapp.models import Product, Cart, Order, OrderProducts
 from django.shortcuts import redirect, get_object_or_404, render, Http404
-from webapp.forms import ProductForm, SearchForm
+from webapp.forms import ProductForm, SearchForm, OrderForm
 from webapp.models import CATEGORY_CHOICES
 
 
@@ -109,6 +109,7 @@ class CartView(ListView):
     template_name = 'cart.html'
     model = Cart
     context_object_name = 'carts'
+    form = OrderForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
@@ -116,6 +117,7 @@ class CartView(ListView):
         for obj in Cart.objects.all():
             total += obj.amount * obj.product.price
         context['total'] = total
+        context['form'] = self.form
         return context
 
 
@@ -126,3 +128,23 @@ class CartDeleteView(View):
         cart.delete()
         return redirect('cart_view')
 
+
+class OrderCreateView(View):
+    def post(self, request, *args, **kwargs):
+        form = OrderForm(data=request.POST)
+        if form.is_valid():
+            order = Order.objects.create(
+                username=form.cleaned_data['username'],
+                address=form.cleaned_data['address'],
+                phone=form.cleaned_data['phone']
+            )
+            for cart in Cart.objects.all():
+                OrderProducts.objects.create(product=cart.product, amount=cart.amount, order=order)
+                product = Product.objects.get(pk=cart.product.pk)
+                product.amount = product.amount - cart.amount
+                product.save()
+            Cart.objects.all().delete()
+            return redirect('index')
+        else:
+            carts = Cart.objects.all()
+            return render(request, 'cart.html', context={'form': form, 'carts': carts})

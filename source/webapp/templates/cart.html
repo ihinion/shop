@@ -31,4 +31,10 @@
     <h5 class="font-weight-bold">Total: {{ total }}</h5>
     </div>
 </div>
+    <hr>
+    {% if carts %}
+        <form action="{% url 'order_create' %}" method="post">
+            {% include 'partial/form.html' with button_text='Submit order' %}
+        </form>
+    {% endif %}
 {% endblock %}

@@ -34,3 +34,21 @@ class Cart(models.Model):
 
     def __str__(self):
         return f'Product: {self.product.name}, amount: {self.amount}'
+
+
+class Order(models.Model):
+    username = models.CharField(max_length=40, verbose_name='Username')
+    phone = models.CharField(max_length=20, verbose_name='Phone number')
+    address = models.CharField(max_length=50, verbose_name='Address')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
+
+    def __str__(self):
+        return f'Order #: {self.pk}, user: {self.username}'
+
+
+class OrderProducts(models.Model):
+    order = models.ForeignKey('webapp.Order', related_name='order_products', on_delete=models.CASCADE,
+                              verbose_name='Order')
+    product = models.ForeignKey('webapp.Product', related_name='product_orders', on_delete=models.CASCADE,
+                                verbose_name='Product')
+    amount = models.IntegerField(verbose_name='Amount')
