@@ -1,4 +1,6 @@
 from urllib.parse import urlencode
+
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
@@ -25,9 +27,6 @@ class IndexView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['form'] = self.form
-        context['dropdown'] = []
-        for i in CATEGORY_CHOICES:
-            context['dropdown'].append(i)
         if self.search_value:
             context['query'] = urlencode({'search': self.search_value})
         return context
@@ -48,46 +47,36 @@ class IndexView(ListView):
         return None
 
 
-def category_view(request, id):
-    category = None
-    for i in CATEGORY_CHOICES:
-        if id in i:
-            category = id
-    if category:
-        products = Product.objects.filter(category=category).order_by('name')
-        print(category)
-        return render(request, 'category.html', {'products': products})
-    else:
-        raise Http404
-
-
 class ProductView(DetailView):
     template_name = 'product.html'
     model = Product
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'product_create.html'
     model = Product
     form_class = ProductForm
+    permission_required = 'webapp.product_add'
 
     def get_success_url(self):
         return reverse('product_view', kwargs={'pk': self.object.pk})
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'product_update.html'
     model = Product
     form_class = ProductForm
+    permission_required = 'webapp.product_change'
 
     def get_success_url(self):
         return reverse('product_view', kwargs={'pk': self.object.pk})
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = 'product_delete.html'
     model = Product
     success_url = reverse_lazy('index')
+    permission_required = 'webapp.product_delete'
 
 
 class CartCreateView(View):

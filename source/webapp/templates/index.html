@@ -1,36 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Shop{% endblock %}
-{% block nav %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
-  <a class="navbar-brand" href="{% url 'index' %}">FancyShop.com</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto"></li>
-    <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" style="color: white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-       aria-haspopup="true" aria-expanded="false">
-      Select category
-    </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            {% for item in dropdown %}
-                <a class="dropdown-item" href="{% url 'category_url' item.0 %}">{{ item.1 }}</a>
-            {% endfor %}
-        </div>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'cart_view' %}">Cart <span class="sr-only">(current)</span></a>
-    </li>
-    </ul>
+{% block search %}
     <form class="form-inline my-lg-0" action="{% url 'index' %}" method="get">
-      {% include 'partial/search.html' with button_text='Search' %}
+        {% include 'partial/search.html' with button_text='Search' %}
     </form>
-  </div>
-</nav>
 {% endblock %}
-
 {% block content %}
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
@@ -43,8 +17,12 @@
                                         <b>Category:</b> {{ product.get_category_display }} </p>
                 <form class="form-inline">
                     <a class="btn btn-primary btn-sm mr-3" href="{% url 'product_view' product.pk %}" role="button">Details</a>
-                    <a class="btn btn-danger btn-sm mr-3" href="{% url 'product_delete' product.pk %}" role="button">Delete</a>
-                    <a class="btn btn-info btn-sm mr-3" href="{% url 'product_update' product.pk %}" role="button">Update</a>
+                    {% if perms.webapp.delete_product %}
+                        <a class="btn btn-danger btn-sm mr-3" href="{% url 'product_delete' product.pk %}" role="button">Delete</a>
+                    {% endif %}
+                    {% if perms.webapp.change_product %}
+                        <a class="btn btn-info btn-sm mr-3" href="{% url 'product_update' product.pk %}" role="button">Update</a>
+                    {% endif %}
                     <a class="btn btn-success btn-sm mr-3" href="{% url 'add_to_cart' product.pk %}" role="button">Add to cart</a>
                 </form>
             </div>
@@ -53,5 +31,8 @@
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
-    <a class="btn btn-primary btn-lg btn-block mb-4" href="{% url 'product_create' %}" role="button">Add product</a>
+    {% if perms.webapp.add_product %}
+        <a class="btn btn-primary btn-lg btn-block mb-4" href="{% url 'product_create' %}" role="button">Add product</a>
+    {% endif %}
+    <br>
 {% endblock %}

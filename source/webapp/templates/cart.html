@@ -2,11 +2,7 @@
 {% load mathfilters %}
 {% load staticfiles %}
 {% block title %}Cart{% endblock %}
-{% block nav %}
-<nav class="navbar navbar-dark bg-primary mb-5">
-    <a class="navbar-brand font-weight-bold" href="{% url 'index' %}">FancyShop.com</a>
-</nav>
-{% endblock %}
+
 {% block content %}
 <div class="card">
     <div class="card-header">
@@ -33,8 +29,7 @@
 </div>
     <hr>
     {% if carts %}
-        <form action="{% url 'order_create' %}" method="post">
-            {% include 'partial/form.html' with button_text='Submit order' %}
-        </form>
+        {% url 'order_create' as action_url %}
+        {% include 'partial/form.html' with action_url=action_url button_text='Submit order' form_method='post' %}
     {% endif %}
 {% endblock %}

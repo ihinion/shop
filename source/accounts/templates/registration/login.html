@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block content %}
+    <h1>Sign in</h1>
+    {% include 'partial/form.html' with form_method='post' button_text='Sign in' %}
+    <hr class="my-5">
+    <h3>Don't have an account yet?</h3>
+    <a class="btn btn-info mt-2" href="{% url 'accounts:create' %}" role="button">Sign up</a><br>
+{% endblock %}

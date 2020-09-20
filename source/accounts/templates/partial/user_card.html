@@ -1,0 +1,22 @@
+<div class="card my-4" style="max-width: 700px;">
+    <div class="row no-gutters">
+        {% if user_obj.profile.profile_pic %}
+            <div class="col-md-4">
+                <img src="{{ user_obj.profile.profile_pic.url }}" class="card-img" alt="user pic">
+            </div>
+        {% else %}
+            <div class="col-md-4">
+                <img src="https://vk.com/images/camera_200.png" class="card-img" alt="no pic">
+            </div>
+        {% endif %}
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"><b>User</b>: {{ user_obj.get_full_name|default:user_obj.username }}</h5>
+                <p class="card-text"><b>Github profile</b>: {{ user_obj.profile.githubprofile }}</p>
+                <p class="card-text"><b>About</b>: {{ user_obj.profile.about }}</p>
+                <a class="btn btn-primary btn-sm mr-3" href="{% url 'accounts:detail' user_obj.pk %}" role="button">View user's page</a>
+            </div>
+
+        </div>
+    </div>
+</div>

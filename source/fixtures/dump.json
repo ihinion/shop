@@ -17,7 +17,7 @@
     "name": "Name Two",
     "description": "Some very nice and useful product",
     "category": "food",
-    "amount": 4,
+    "amount": 3,
     "price": "23.00"
   }
 },
@@ -97,6 +97,16 @@
   }
 },
 {
+  "model": "webapp.order",
+  "pk": 13,
+  "fields": {
+    "username": "test",
+    "phone": "4444",
+    "address": "test",
+    "created_at": "2020-09-20T01:47:01.334Z"
+  }
+},
+{
   "model": "webapp.orderproducts",
   "pk": 5,
   "fields": {
@@ -115,21 +125,32 @@
   }
 },
 {
-  "model": "auth.user",
+  "model": "webapp.orderproducts",
+  "pk": 7,
+  "fields": {
+    "order": 13,
+    "product": 2,
+    "amount": 1
+  }
+},
+{
+  "model": "accounts.profile",
   "pk": 1,
   "fields": {
-    "password": "pbkdf2_sha256$150000$cIg4zyp6yoPa$1w0D69S7f70KHHyaZHGPdTGJLp4zLRyecUup0fKkvu4=",
-    "last_login": "2020-08-31T04:45:29.067Z",
-    "is_superuser": true,
-    "username": "admin",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2020-07-30T13:26:56.710Z",
-    "groups": [],
-    "user_permissions": []
+    "user": 1,
+    "githubprofile": null,
+    "about": null,
+    "profile_pic": ""
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "githubprofile": null,
+    "about": null,
+    "profile_pic": ""
   }
 }
 ]

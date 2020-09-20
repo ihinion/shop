@@ -1,13 +1,30 @@
 {% load widget_tweaks %}
-{% csrf_token %}
-{% for error in form.non_field_errors %}
-    <p class="form-error">{{ error }}</p>
-{% endfor %}
-{% for field in form %}
-    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-    {% for error in field.errors %}
+
+{% if not fields_only %}
+    <form action="{{ action_url }}" method="{{ form_method }}" enctype="{{ enctype }}">
+        {% csrf_token %}
+{% endif %}
+
+    {% for error in form.non_field_errors %}
         <p class="form-error">{{ error }}</p>
     {% endfor %}
-    <p>{{ field|add_class:'form-control' }}</p>
-{% endfor %}
-<input class="btn btn-primary" type="submit" value="{{ button_text }}">
+    {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+            {% for error in field.errors %}
+                <p class="form-error">{{ error }}</p>
+            {% endfor %}
+            {% if field.label == 'Start date' or field.label == 'End date' %}
+                <p>{{ field|add_class:'form-control'|attr:"placeholder:YYYY-MM-DD" }}</p>
+            {% elif field.label == 'Types' or field.label == 'Users' %}
+                {{ field|add_class:'checkbox-form' }}
+            {% elif field.label == 'Profile pic' %}
+                <p>{{ field }}</p>
+            {% else %}
+                <p>{{ field|add_class:'form-control' }}</p>
+            {% endif %}
+    {% endfor %}
+
+{% if not fields_only %}
+        <input class="btn btn-primary" type="submit" value="{{ button_text }}">
+    </form>
+{% endif %}
