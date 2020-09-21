@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load mathfilters %}
 {% block title %}User page{% endblock %}
 
 {% block menu_links %}
@@ -20,7 +21,24 @@
         <div class="media-body">
         <h5 class="mt-0">Page of {{ user_obj.get_full_name|default:user_obj.username }}</h5>
         <p>Username: {{ user_obj.username }}</p>
-        <p>About: {{ user_obj.profile.about }}</p>
+        <p>About: {% if user_obj.profile.about %}{{ user_obj.profile.about }}{% else %}No details :/{% endif %}</p>
         </div>
     </div>
+    <hr>
+    <h2 class="my-3">Orders of {{ user_obj.username }}:</h2>
+    {% for order in orders %}
+        <h3 class="mt-4">Order# {{ order.pk }} - {{ order.created_at }}</h3>
+        {% for product in order.order_products.all %}
+            <b>Product:</b> {{ product.product.name }}<br>
+            <b>Amount:</b> {{ product.amount }}<br>
+            {% with x=product.product.price y=product.amount %}
+                <b>Sum:</b> {{ x|mul:y }}<br><br>
+            {% endwith %}
+        {% endfor %}
+        <b class="mt-2">Total: {{ order.get_total }}</b><br>
+        <hr>
+    {% endfor %}
+    {% if not orders %}
+        <p>You haven't made any orders yet</p>
+    {% endif %}
 {% endblock %}

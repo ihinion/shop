@@ -10,7 +10,7 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from accounts.forms import MyUserCreationForm, UserChangeForm, ProfileChangeForm, PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from accounts.models import Profile
-from webapp.models import Cart
+from webapp.models import Cart, Order
 
 
 class RegisterView(CreateView):
@@ -25,10 +25,18 @@ class RegisterView(CreateView):
         return redirect('index')
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
+class UserDetailView(UserPassesTestMixin, DetailView):
     model = get_user_model()
     template_name = 'user_detail.html'
     context_object_name = 'user_obj'
+
+    def test_func(self):
+        return self.request.user == self.get_object()
+
+    def get_context_data(self, **kwargs):
+        orders = Order.objects.filter(user__id=self.object.id)
+        kwargs['orders'] = orders
+        return super().get_context_data(**kwargs)
 
 
 class UserChangeView(UserPassesTestMixin, UpdateView):

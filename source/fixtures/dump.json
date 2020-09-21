@@ -6,7 +6,7 @@
     "name": "Name One",
     "description": "Some very nice and useful product",
     "category": "electronics",
-    "amount": 1,
+    "amount": 19,
     "price": "111.00"
   }
 },
@@ -17,7 +17,7 @@
     "name": "Name Two",
     "description": "Some very nice and useful product",
     "category": "food",
-    "amount": 3,
+    "amount": 6,
     "price": "23.00"
   }
 },
@@ -28,7 +28,7 @@
     "name": "Name Three",
     "description": "Some very nice and useful product",
     "category": "cars",
-    "amount": 1,
+    "amount": 4,
     "price": "24000.00"
   }
 },
@@ -39,7 +39,7 @@
     "name": "Name Four",
     "description": "Some very nice and useful product",
     "category": "toys",
-    "amount": 20,
+    "amount": 16,
     "price": "8.00"
   }
 },
@@ -50,7 +50,7 @@
     "name": "Name Five",
     "description": "Some very nice and useful product",
     "category": "food",
-    "amount": 50,
+    "amount": 45,
     "price": "3.00"
   }
 },
@@ -61,7 +61,7 @@
     "name": "test",
     "description": "test",
     "category": "other",
-    "amount": 44,
+    "amount": 42,
     "price": "44.00"
   }
 },
@@ -72,64 +72,132 @@
     "name": "test 2",
     "description": "test 22",
     "category": "electronics",
-    "amount": 2,
+    "amount": 7,
     "price": "8.00"
   }
 },
 {
   "model": "webapp.order",
-  "pk": 11,
+  "pk": 27,
   "fields": {
     "username": "admin",
-    "phone": "22222",
-    "address": "2323",
-    "created_at": "2020-08-31T09:56:24.758Z"
+    "phone": "00001",
+    "address": "admin address",
+    "created_at": "2020-09-21T11:36:30.182Z",
+    "user": 1
   }
 },
 {
   "model": "webapp.order",
-  "pk": 12,
+  "pk": 28,
   "fields": {
-    "username": "admin2",
-    "phone": "3333",
-    "address": "2",
-    "created_at": "2020-08-31T09:56:35.486Z"
+    "username": "admin",
+    "phone": "00001",
+    "address": "admin address",
+    "created_at": "2020-09-21T11:36:48.929Z",
+    "user": 1
   }
 },
 {
   "model": "webapp.order",
-  "pk": 13,
+  "pk": 29,
   "fields": {
-    "username": "test",
-    "phone": "4444",
-    "address": "test",
-    "created_at": "2020-09-20T01:47:01.334Z"
+    "username": "moderator",
+    "phone": "11111",
+    "address": "moderator address",
+    "created_at": "2020-09-21T11:37:20.146Z",
+    "user": 2
+  }
+},
+{
+  "model": "webapp.order",
+  "pk": 30,
+  "fields": {
+    "username": "moderator",
+    "phone": "11111",
+    "address": "moderator address",
+    "created_at": "2020-09-21T11:37:47.820Z",
+    "user": 2
   }
 },
 {
   "model": "webapp.orderproducts",
-  "pk": 5,
+  "pk": 37,
   "fields": {
-    "order": 11,
+    "order": 27,
     "product": 3,
     "amount": 1
   }
 },
 {
   "model": "webapp.orderproducts",
-  "pk": 6,
+  "pk": 38,
   "fields": {
-    "order": 12,
+    "order": 27,
+    "product": 1,
+    "amount": 1
+  }
+},
+{
+  "model": "webapp.orderproducts",
+  "pk": 39,
+  "fields": {
+    "order": 27,
+    "product": 11,
+    "amount": 2
+  }
+},
+{
+  "model": "webapp.orderproducts",
+  "pk": 40,
+  "fields": {
+    "order": 28,
+    "product": 2,
+    "amount": 1
+  }
+},
+{
+  "model": "webapp.orderproducts",
+  "pk": 41,
+  "fields": {
+    "order": 29,
+    "product": 3,
+    "amount": 1
+  }
+},
+{
+  "model": "webapp.orderproducts",
+  "pk": 42,
+  "fields": {
+    "order": 29,
+    "product": 1,
+    "amount": 2
+  }
+},
+{
+  "model": "webapp.orderproducts",
+  "pk": 43,
+  "fields": {
+    "order": 29,
     "product": 11,
     "amount": 1
   }
 },
 {
   "model": "webapp.orderproducts",
-  "pk": 7,
+  "pk": 44,
   "fields": {
-    "order": 13,
+    "order": 30,
     "product": 2,
+    "amount": 1
+  }
+},
+{
+  "model": "webapp.orderproducts",
+  "pk": 45,
+  "fields": {
+    "order": 30,
+    "product": 5,
     "amount": 1
   }
 },
