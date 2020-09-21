@@ -1,13 +1,16 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, LogoutView
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth import login, get_user_model, update_session_auth_hash
 from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from accounts.forms import MyUserCreationForm, UserChangeForm, ProfileChangeForm, PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from accounts.models import Profile
+from webapp.models import Cart
 
 
 class RegisterView(CreateView):
@@ -87,3 +90,11 @@ class UserPasswordChangeView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('accounts:detail', kwargs={'pk': self.object.pk})
+
+
+class CartClearLogoutView(LogoutView):
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        cart_ids = request.session.get('cart_ids', [])
+        Cart.objects.filter(pk__in=cart_ids).delete()
+        return super().dispatch(request, *args, **kwargs)
