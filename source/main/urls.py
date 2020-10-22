@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('accounts/', include('accounts.urls')),
-
+    path('api/', include('api.urls')),
     path('', IndexView.as_view(), name='index'),
     path('product/<pk>/', ProductView.as_view(), name='product_view'),
     path('add/', ProductCreateView.as_view(), name='product_create'),
